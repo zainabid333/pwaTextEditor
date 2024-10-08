@@ -1,7 +1,7 @@
 import { openDB } from "idb";
 
 const initdb = async () => {
-  return openDB(jate, 1, {
+  return openDB("jate", 1, {
     upgrade(db) {
       if (db.objectStoreNames.contains('jate')) {
         console.log('jate database already exists');
@@ -25,7 +25,8 @@ export const putDb = async (content) => {
 // TODO: Add logic for a method that gets all the content from the database
 export const getDb = async () => {
   const txtEditorDb = await openDB("jate", "1");
-  const store = txtEditorDb.objectStore("jate");
+  const tx = txtEditorDb.transaction("jate", "readonly");
+  const store = tx.objectStore("jate");
   const request = store.get(1);
   const result = await request;
   result
